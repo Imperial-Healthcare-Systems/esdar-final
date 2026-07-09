@@ -2,11 +2,63 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Chrome from "./components/Chrome";
+import { SITE, SITE_URL } from "./lib/seo";
+import { orgJsonLd, websiteJsonLd } from "./lib/jsonld";
 
 export const metadata = {
-  title: "Esdar Technologies — Robotics & AI Labs, Camps & Curriculum for Schools",
-  description:
-    "Esdar partners with schools to deliver complete robotics & AI education — lab setup, camps, kits, trained instructors and curriculum. We spark innovation.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default:
+      "Esdar Technologies — Robotics & AI Labs, Camps & Curriculum for Schools",
+    template: "%s | Esdar Technologies",
+  },
+  description: SITE.description + " We spark innovation.",
+  applicationName: SITE.name,
+  authors: [{ name: SITE.name, url: SITE_URL }],
+  creator: SITE.name,
+  publisher: SITE.name,
+  category: "education",
+  alternates: { canonical: "/" },
+  keywords: [
+    "robotics education",
+    "AI labs for schools",
+    "robotics lab setup",
+    "STEM education",
+    "coding classes",
+    "robotics camps",
+    "Esdar Technologies",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "/",
+    siteName: SITE.name,
+    title: "Esdar Technologies — Robotics & AI for Schools",
+    description: SITE.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Esdar Technologies — Robotics & AI for Schools",
+    description: SITE.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  // Add your Search Console token: verification: { google: "..." },
+};
+
+export const viewport = {
+  themeColor: "#0037F2",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }) {
@@ -21,6 +73,14 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+        />
         <Header />
         <main id="main">{children}</main>
         <Footer />
